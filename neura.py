@@ -1,3 +1,5 @@
+#Lógica Orientada a Objetos y Funciones para entender mejor las operaciones de las neuronas
+
 class NeuronaMP:
     def __init__(self, pesos, umbral):
         self.pesos = pesos
@@ -6,78 +8,67 @@ class NeuronaMP:
     def activar(self, entradas):
         suma_ponderada = sum(p * e for p, e in zip(self.pesos, entradas))
         return 1 if suma_ponderada >= self.umbral else 0
-    
-# Entradas Posibles
+
+# Instancias de neuronas
+neura_and = NeuronaMP([1, 1], 2)
+neura_or = NeuronaMP([1, 1], 1)
+neura_not = NeuronaMP([-1], 0)
+
+# Funciones de Lógica Neuronas
+def AND(entrada):
+    return neura_and.activar(entrada)
+
+def OR(entrada):
+    return neura_or.activar(entrada)
+
+def NOT(entrada):
+    return neura_not.activar([entrada])
+
+def NAND(entrada):
+    return NOT(AND(entrada))
+
+def NOR(entrada):
+    return NOT(OR(entrada))
+
+def XOR(entrada):
+    return AND([NAND(entrada), OR(entrada)])
+
+def XNOR(entrada):
+    return NOT(XOR(entrada))
+
+# Entradas posibles
 entradas = [
     [0, 0],
     [0, 1],
     [1, 0],
     [1, 1]
-]   
+]
 
-# Ejemplos de uso:
-
-# AND
-neura_and = NeuronaMP([1, 1], 2)
+# Mostrar resultados por Neurona
 for entrada in entradas:
-    salida_and = neura_and.activar(entrada)
-    print(f"AND({entrada}) = {salida_and}")
-
+    print(f"AND({entrada}) = {AND(entrada)}")
 print()
 
-# OR
-neura_or = NeuronaMP([1, 1], 1)
 for entrada in entradas:
-    salida_or = neura_or.activar(entrada)
-    print(f"OR({entrada}) = {salida_or}")
-
+    print(f"OR({entrada}) = {OR(entrada)}")
 print()
 
-# NOT
-neura_not = NeuronaMP([-1], 0)
-r1 = neura_not.activar([1])     # 0
-r0 = neura_not.activar([0])     # 1
-print(f"NOT (1) = {r1}")
-print(f"NOT (0) = {r0}")
-
+print(f"NOT([1]) = {NOT(1)}")
+print(f"NOT([0]) = {NOT(0)}")
 print()
 
-# NOR -> Negar OR
-
 for entrada in entradas:
-    salida_or = neura_or.activar(entrada)
-    salida_nor = neura_not.activar([salida_or])
-    print(f"NOR({entrada}) = {salida_nor}")
-
+    print(f"NOR({entrada}) = {NOR(entrada)}")
 print()
 
-# NAND -> Negar AND
 for entrada in entradas:
-    salida_and = neura_and.activar(entrada)
-    salida_nand = neura_not.activar([salida_and])
-    print(f"NAND({entrada}) = {salida_nand}")
-
+    print(f"NAND({entrada}) = {NAND(entrada)}")
 print()
 
-# XOR multiple neuronas
-
 for entrada in entradas:
-    salida_and = neura_and.activar(entrada)
-    salida_nand = neura_not.activar([salida_and])
-    salida_or = neura_or.activar(entrada)
-    xor = neura_and.activar([salida_nand, salida_or])
-    
-    print(f"XOR({entrada}) = {xor}")
- 
+    print(f"XOR({entrada}) = {XOR(entrada)}")
 print()
 
-# XNOR -> Negar el XOR
-
 for entrada in entradas:
-    salida_and = neura_and.activar(entrada)
-    salida_nand = neura_not.activar([salida_and])
-    salida_or = neura_or.activar(entrada)
-    salida_xor = neura_and.activar([salida_nand, salida_or])
-    xnor = neura_not.activar([salida_xor])
-
-    print(f"XNOR({entrada}) = {xnor}")
+    print(f"XNOR({entrada}) = {XNOR(entrada)}")
+print()
